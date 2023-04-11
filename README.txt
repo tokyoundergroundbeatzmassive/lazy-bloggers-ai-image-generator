@@ -69,7 +69,7 @@ License:
 This plugin is released under the MIT license.
 
 Donation:
-Our ultimate goal with this plugin is to create a multifunctional plugin using WordPress and OpenAI's API, such as generating specialized knowledge-based blogs using Fine-tuning.
+Our ultimate goal with this plugin is to create a multifunctional plugin using WordPress and OpenAI's API, such as auto-generating specialized knowledge-based blogs using Fine-tuning.
 Development takes time and money, so if you'd like to support our work, please consider donating through the following methods:
 Buy Me a Coffee: https://www.buymeacoffee.com/anonymously
 PayPal: https://www.paypal.com/paypalme/tubm?locale.x=en_US
