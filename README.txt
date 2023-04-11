@@ -12,7 +12,7 @@
 
 設定:
 	1.	API Key: OpenAIのAPI Keyを入力します。
-	2.	画像サイズ: 生成する画像のサイズを選択します。
+	2.	Size: 生成する画像のサイズを選択します。
 	3.	Include Title/Category/Tag: それぞれのチェックボックスを入れると、APIに送られるプロンプトにタイトル、カテゴリー、タグが含まれるようになります。
 	4.	Enable Translation: 有効にすると、APIに送られる最終的なプロンプトが英語に翻訳されます。
 	5.	Prompt: スタイルやシーンをプロンプトに含めるために使います。
@@ -50,7 +50,7 @@ Installation steps:
 
 Settings:
 1. API Key: Enter your OpenAI API Key.
-2. Image Size: Choose the size of the generated images.
+2. Size: Choose the size of the generated images.
 3. Include Title/Category/Tag: Check these boxes to include the title, category, and tags in the API prompt.
 4. Enable Translation: Enable this to translate the final prompt sent to the API into English.
 5. Prompt: Use this to include style and scene information in the prompt.
