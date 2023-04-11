@@ -2,7 +2,6 @@
 
 「text2image-generator」について
 このWordPressプラグインは、記事のタイトル、カテゴリー、タグを基に、記事が'公開'されるとOpenAIのAPIを利用して自動でアイキャッチ画像を生成します。
-使い方は簡単で、GitHubからzipファイルをダウンロードし、通常のWordPressと同じ方法でインストールするだけです。
 
 インストール手順:
 	1.	GitHubからzipファイルをダウンロードします。
@@ -41,7 +40,6 @@ PayPal: https://www.paypal.com/paypalme/tubm?locale.x=ja_JP
 ~English~
 About "text2image-generator"
 This WordPress plugin automatically generates featured images for your posts using OpenAI's API when the post is published, based on the title, category, and tags. 
-It's easy to use – just download the zip file from GitHub and install it the same way as any other WordPress plugin.
 
 Installation steps:
 1. Download the zip file from GitHub.
