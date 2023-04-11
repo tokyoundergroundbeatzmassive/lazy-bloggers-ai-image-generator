@@ -33,7 +33,8 @@ PayPal: https://www.paypal.com/paypalme/tubm?locale.x=ja_JP
 
 ~English~
 About "text2image-generator"
-This WordPress plugin automatically generates featured images for your posts using OpenAI's API when the post is published, based on the title, category, and tags. It's easy to use – just download the zip file from GitHub and install it the same way as any other WordPress plugin.
+This WordPress plugin automatically generates featured images for your posts using OpenAI's API when the post is published, based on the title, category, and tags. 
+It's easy to use – just download the zip file from GitHub and install it the same way as any other WordPress plugin.
 
 Installation steps:
 1. Download the zip file from GitHub.
