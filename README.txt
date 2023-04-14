@@ -1,3 +1,12 @@
+=== text2image-generator ===
+Contributors: Anonymous_Producer
+Tags: tag1, tag2
+Requires at least: 6.1.1
+Tested up to: 6.2
+Stable tag: 1.1
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
 ↓↓↓English Below↓↓↓
 
 「text2image-generator」について
