@@ -5,7 +5,7 @@
  * Version: 1.1
  * Author Email: Zukamimozu@protonmail.com
  * Author: Anonymous_Producer
- * License: MIT
+ * License: GPLv2 or later
  */
 
 if (!defined('ABSPATH')) {
