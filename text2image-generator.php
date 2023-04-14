@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Text2Image Generator
  * Description: AI Generates an image based on the text provided in the settings and set it as featured image automatically when the post is published
- * Version: 1.0
+ * Version: 1.1
  * Author Email: Zukamimozu@protonmail.com
  * Author: Anonymous_Producer
  * License: MIT
@@ -290,18 +290,18 @@ function text2image_generator_generate_image($post_id) {
         text2image_generator_error_log($log_message);
     }
 
-    // Check if the JSON response has the image URL and return it
+    // Check if the JSON response has the image URL and return it with the post title
     if ($json && isset($json['data'][0]['url'])) {
-        return $json['data'][0]['url'];
+        return array($json['data'][0]['url'], $post_title);
     } else {
         return null;
     }
 }
 
 // Set the featured image for a post from a given URL
-function text2image_generator_set_featured_image_from_url($post_id, $image_url) {
-    $post = get_post($post_id);
-    $post_title = $post->post_title;
+function text2image_generator_set_featured_image_from_url($post_id, $image_data) {
+    $image_url = $image_data[0];
+    $post_title = $image_data[1];
 
     require_once(ABSPATH . 'wp-admin/includes/media.php');
     require_once(ABSPATH . 'wp-admin/includes/file.php');
@@ -318,6 +318,17 @@ function text2image_generator_set_featured_image_from_url($post_id, $image_url) 
         $attachments = get_posts($args);
         if ($attachments) {
             $attachment = $attachments[0];
+
+            // Set the attachment file name to the post title
+            $new_file_name = sanitize_file_name($post_title . '.png');
+            $file_path = get_attached_file($attachment->ID);
+            $new_file_path = dirname($file_path) . '/' . $new_file_name;
+            if (rename($file_path, $new_file_path)) {
+                update_attached_file($attachment->ID, $new_file_path);
+            }
+            // Set the alt text to the post title
+            update_post_meta($attachment->ID, '_wp_attachment_image_alt', $post_title);
+
             if (set_post_thumbnail($post_id, $attachment->ID)) {
                 text2image_generator_error_log('Featured Image Set - Post ID: ' . $post_id);
             } else {
