@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Text2Image Generator
  * Description: AI Generates an image based on the text provided in the settings and set it as featured image automatically when the post is published
- * Version: 1.1
+ * Version: 1.2
  * Author Email: Zukamimozu@protonmail.com
  * Author: Anonymous_Producer
  * License: GPLv2 or later
@@ -34,6 +34,13 @@ function text2image_generator_settings_page() {
     ?>
     <div class="wrap">
         <h1>Text2Image Generator Settings</h1>
+        <div class="plugin-description-small">
+            <p style="font-size: 12px;">This plugin is designed to work with the DALL-E2 API, which generates image files in .png format and can be quite large in size.<br>
+            Therefore, we recommend using <a href="https://shortpixel.com/otp/af/QALRSBX1137437" target="_blank">ShortPixel Image Optimizer</a>.<br>
+            It automatically converts images to .jpg format and compresses them, allowing for up to 90% reduction in file size.<br>
+            They give you 100 free credit per a month!</p>
+            <p style="font-size: 12px; font-weight: bold;">Please note: You need <a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI's API</a> to use this plugin!</p>
+        </div>
         <form method="post" action="options.php">
             <?php
             settings_fields('text2image_generator_settings');
@@ -98,25 +105,23 @@ function text2image_generator_settings() {
 }
 add_action('admin_init', 'text2image_generator_settings');
 
-// Save the generated image as the featured image when a post is saved
-function text2image_generator_on_insert_post_data($data, $postarr) {
-    $post_id = $postarr['ID'];
+// Save the generated image as the featured image when a post is published
+function text2image_generator_on_transition_post_status($new_status, $old_status, $post) {
+    $post_id = $post->ID;
 
     // Check if the post is a revision or an autosave
     if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) {
-        return $data;
+        return;
     }
 
     // Check if the post is published
-    if ($data['post_status'] !== 'publish') {
-        return $data;
+    if ($new_status !== 'publish' || $old_status === 'publish') {
+        return;
     }
 
     wp_schedule_single_event(time() + 1, 'text2image_generator_delayed_image_generation', array($post_id));
-
-    return $data;
 }
-add_filter('wp_insert_post_data', 'text2image_generator_on_insert_post_data', 10, 2);
+add_action('transition_post_status', 'text2image_generator_on_transition_post_status', 10, 3);
 
 function text2image_generator_delayed_image_generation($post_id) {
     $image_url = text2image_generator_generate_image($post_id);
