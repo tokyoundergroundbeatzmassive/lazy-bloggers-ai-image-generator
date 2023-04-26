@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Text2Image Generator
  * Description: AI Generates an image based on the text provided in the settings and set it as featured image automatically when the post is published
- * Version: 1.2
+ * Version: 1.3
  * Author Email: Zukamimozu@protonmail.com
  * Author: Anonymous_Producer
  * License: GPLv2 or later
@@ -335,9 +335,13 @@ function text2image_generator_set_featured_image_from_url($post_id, $image_data)
             update_post_meta($attachment->ID, '_wp_attachment_image_alt', $post_title);
 
             if (set_post_thumbnail($post_id, $attachment->ID)) {
-                text2image_generator_error_log('Featured Image Set - Post ID: ' . $post_id);
+                if (get_option('text2image_generator_enable_logging')) {
+                    text2image_generator_error_log('Featured Image Set - Post ID: ' . $post_id);
+                }
             } else {
-                text2image_generator_error_log('Mission Failed - Post ID: ' . $post_id . ' - Failed to set featured image');
+                if (get_option('text2image_generator_enable_logging')) {
+                    text2image_generator_error_log('Mission Failed - Post ID: ' . $post_id . ' - Failed to set featured image');
+                }
             }
         } else {
             text2image_generator_error_log('Mission Failed - Post ID: ' . $post_id . ' - No attachment found');
