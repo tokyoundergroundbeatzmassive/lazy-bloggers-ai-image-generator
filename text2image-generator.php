@@ -20,7 +20,7 @@ define('TEXT2IMAGE_GENERATOR_LOG_FILE', TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'text2
 // Include other files
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/admin-settings.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/image-generation.php';
-require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/utilities.php';
+require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/log.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/set_featured_image.php';
 
 // Save the generated image as the featured image when a post is published
