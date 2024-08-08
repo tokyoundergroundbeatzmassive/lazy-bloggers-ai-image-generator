@@ -60,6 +60,10 @@ function text2image_generator_settings_page() {
                     <td><input type="checkbox" name="text2image_generator_include_tag" value="1" <?php checked(1, get_option('text2image_generator_include_tag'), true); ?> /></td>
                 </tr>
                 <tr valign="top">
+                    <th scope="row">Create prompt from the post content</th>
+                    <td><input type="checkbox" name="text2image_generator_use_post_content" value="1" <?php checked(1, get_option('text2image_generator_use_post_content'), true); ?> /></td>
+                </tr>
+                <tr valign="top">
                     <th scope="row">Additional (style) Prompt</th>
                     <td><textarea name="text2image_generator_style_prompt" maxlength="1000" rows="5" cols="50"><?php echo esc_textarea(get_option('text2image_generator_style_prompt')); ?></textarea></td>
                 </tr>
@@ -83,5 +87,6 @@ function text2image_generator_settings() {
     register_setting('text2image_generator_settings', 'text2image_generator_include_title');
     register_setting('text2image_generator_settings', 'text2image_generator_include_category');
     register_setting('text2image_generator_settings', 'text2image_generator_include_tag');
+    register_setting('text2image_generator_settings', 'text2image_generator_use_post_content');
 }
 add_action('admin_init', 'text2image_generator_settings');

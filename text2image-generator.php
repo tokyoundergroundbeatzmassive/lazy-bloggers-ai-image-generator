@@ -22,6 +22,7 @@ require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/admin-settings.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/image-generation.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/log.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/set_featured_image.php';
+require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/function_calling.php';
 
 // Save the generated image as the featured image when a post is published
 function text2image_generator_on_transition_post_status($new_status, $old_status, $post) {
@@ -42,12 +43,36 @@ function text2image_generator_on_transition_post_status($new_status, $old_status
 add_action('transition_post_status', 'text2image_generator_on_transition_post_status', 10, 3);
 
 function text2image_generator_delayed_image_generation($post_id) {
-    $image_url = text2image_generator_generate_image($post_id);
+    $use_post_content = get_option('text2image_generator_use_post_content');
+
+    if ($use_post_content) {
+        $post = get_post($post_id);
+        $post_content = wp_strip_all_tags($post->post_content);
+        $image_prompt = summarize_and_create_image_prompt($post_content);
+        
+        if ($image_prompt) {
+            if (get_option('text2image_generator_enable_logging')) {
+                text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Function Calling Generated Prompt: ' . $image_prompt);
+            }
+            $image_url = text2image_generator_generate_image($post_id, true, false, false, false, $image_prompt);
+        } else {
+            // エラーログを記録
+            text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Failed to create image prompt from post content');
+            return;
+        }
+    } else {
+        $use_title = get_option('text2image_generator_include_title');
+        $use_category = get_option('text2image_generator_include_category');
+        $use_tag = get_option('text2image_generator_include_tag');
+        
+        $image_url = text2image_generator_generate_image($post_id, false, $use_title, $use_category, $use_tag);
+    }
+
     if ($image_url) {
         text2image_generator_set_featured_image_from_url($post_id, $image_url);
     }
 
-    if (get_option('text2image_generator_enable_logging')) {
+    if (get_option('text2image_generator_enable_logging') && !$use_post_content) {
         $post_categories = get_the_category($post_id);
         $category_names = array();
         if ($post_categories) {

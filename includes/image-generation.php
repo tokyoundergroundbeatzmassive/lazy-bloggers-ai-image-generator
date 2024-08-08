@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Generate an image using the OpenAI API
-function text2image_generator_generate_image($post_id) {
+function text2image_generator_generate_image($post_id, $use_post_content, $use_title, $use_category, $use_tag, $custom_prompt = null) {
     $api_key = get_option('text2image_generator_api_key');
     $size = get_option('text2image_generator_size');
     $style_prompt = get_option('text2image_generator_style_prompt');
@@ -14,42 +14,49 @@ function text2image_generator_generate_image($post_id) {
     $post = get_post($post_id);
     $post_title = wp_strip_all_tags($post->post_title);
 
-    $post_categories = get_the_terms($post_id, 'category');
-    $category_names = array();
-    if ($post_categories && !is_wp_error($post_categories)) {
-        foreach ($post_categories as $category) {
-            if ($category->name != 'Uncategorized') {
-                $category_names[] = wp_strip_all_tags($category->name);
+    $prompt_parts = [];
+
+    if ($use_post_content && $custom_prompt) {
+        $prompt_parts[] = $custom_prompt;
+    } else {
+        if ($use_title) {
+            $prompt_parts[] = $post_title;
+        }
+        if ($use_category) {
+            $post_categories = get_the_terms($post_id, 'category');
+            $category_names = array();
+            if ($post_categories && !is_wp_error($post_categories)) {
+                foreach ($post_categories as $category) {
+                    if ($category->name != 'Uncategorized') {
+                        $category_names[] = wp_strip_all_tags($category->name);
+                    }
+                }
+            }
+            if (!empty($category_names)) {
+                $prompt_parts[] = implode(', ', $category_names);
+            }
+        }
+        if ($use_tag) {
+            $post_tags = get_the_terms($post_id, 'post_tag');
+            $tag_names = array();
+            if ($post_tags && !is_wp_error($post_tags)) {
+                foreach ($post_tags as $tag) {
+                    $tag_names[] = wp_strip_all_tags($tag->name);
+                }
+            }
+            if (!empty($tag_names)) {
+                $prompt_parts[] = implode(', ', $tag_names);
             }
         }
     }
 
-    $post_tags = get_the_terms($post_id, 'post_tag');
-    $tag_names = array();
-    if ($post_tags && !is_wp_error($post_tags)) {
-        foreach ($post_tags as $tag) {
-            $tag_names[] = wp_strip_all_tags($tag->name);
-        }
-    }
-
-    // Include the post title, categories, and tags in the prompt if the corresponding options are enabled
-    $prompt_parts = [];
-    if (get_option('text2image_generator_include_title')) {
-        $prompt_parts[] = $post_title;
-    }
-    if (get_option('text2image_generator_include_category') && !empty($category_names)) {
-        $prompt_parts[] = implode(', ', $category_names);
-    }
-    if (get_option('text2image_generator_include_tag') && !empty($tag_names)) {
-        $prompt_parts[] = implode(', ', $tag_names);
-    }
     $prompt_parts[] = $style_prompt;
 
     $final_prompt = implode(', ', $prompt_parts);
 
-    // Log the prompt
+    // Log the final prompt
     if (get_option('text2image_generator_enable_logging')) {
-        text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Prompt: ' . $final_prompt);
+        text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Final Prompt: ' . $final_prompt);
     }
 
     $headers = array(
