@@ -1,11 +1,11 @@
 # Lazy Blogger's AI Image Generator
-Contributors: Anonymous_Producer
-Tags: ai, automated image generation, featured image, openai, dall-e
-Requires at least: 6.1.1
-Tested up to: 6.6.1
-Requires PHP: 8.1 or higher
-Stable tag: 1.3
-License: GPLv2 or later
+Contributors: Anonymous_Producer  
+Tags: ai, automated image generation, featured image, openai, dall-e  
+Requires WordPress: 6.1.1 or higher  
+Tested up to WordPress: 6.6.1  
+Requires PHP: 8.1 or higher  
+Stable tag: 1.3  
+License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Automatically generate featured images for your posts using OpenAI's DALL-E API.
