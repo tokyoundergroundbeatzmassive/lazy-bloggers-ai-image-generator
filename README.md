@@ -40,18 +40,18 @@ Key Features:
 
 ## Settings
 
-1. API Key: Enter your OpenAI API Key.
-2. Size: Choose the size of the generated images (1024x1024, 1024x1792, or 1792x1024).
-3. Include Title/Category/Tag: Check these boxes to include the title, category, and tags in the API prompt.
-4. Create prompt from the post content: Enable this if you want AI to generate an image prompt from the post content.
-5. Additional Style Prompt: Use this to include style and scene information in the prompt.
-6. Enable Logging: Enable this to save logs for troubleshooting.
+1. **API Key:** Enter your OpenAI API Key.
+2. **Size:** Choose the size of the generated images (1024x1024, 1024x1792, or 1792x1024).
+3. **Include Title/Category/Tag:** Check these boxes to include the title, category, and tags in the API prompt.
+4. **Create prompt from the post content:** Enable this if you want AI to generate an image prompt from the post content.
+5. **Additional Style Prompt:** Use this to include style information in the prompt.
+6. **Enable Logging:** Enable this to save logs for troubleshooting.
 
 ## Note
 
 This plugin requires an OpenAI API key to function. Make sure you have an active OpenAI account and API key before using this plugin.
 
-== Changelog ==
+## Changelog
 
 ### 1.3
 * Added function calling to generate prompts from post content
