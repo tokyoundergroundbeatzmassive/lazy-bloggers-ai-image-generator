@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: Text2Image Generator
- * Description: AI Generates an image based on the text provided in the settings and set it as featured image automatically when the post is published
+ * Plugin Name: Lazy Blogger's AI Image Generator
+ * Description: AI Generates an image based on the text provided in the post contents, and set it as featured image automatically when the post is published
  * Version: 1.3
  * Author Email: Zukamimozu@protonmail.com
  * Author: Anonymous_Producer
@@ -23,6 +23,8 @@ require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/image-generation.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/log.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/set_featured_image.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/function_calling.php';
+require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/tiktoken.php';
+require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'vendor/autoload.php';
 
 // Save the generated image as the featured image when a post is published
 function text2image_generator_on_transition_post_status($new_status, $old_status, $post) {
@@ -48,15 +50,23 @@ function text2image_generator_delayed_image_generation($post_id) {
     if ($use_post_content) {
         $post = get_post($post_id);
         $post_content = wp_strip_all_tags($post->post_content);
-        $image_prompt = summarize_and_create_image_prompt($post_content);
+
+        $initial_token_count = text2image_generator_count_tokens($post_content);
+        if ($initial_token_count > 100000) {
+            $post_content = text2image_generator_limit_tokens($post_content);
+            $limited_token_count = text2image_generator_count_tokens($post_content);
+        }
+        
+        if (get_option('text2image_generator_enable_logging')) {
+            text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Initial token count: ' . $initial_token_count);
+            text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Limited token count: ' . $limited_token_count);
+        }
+
+        $image_prompt = text2image_generator_create_image_prompt($post_content);
         
         if ($image_prompt) {
-            if (get_option('text2image_generator_enable_logging')) {
-                text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Function Calling Generated Prompt: ' . $image_prompt);
-            }
             $image_url = text2image_generator_generate_image($post_id, true, false, false, false, $image_prompt);
         } else {
-            // エラーログを記録
             text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Failed to create image prompt from post content');
             return;
         }

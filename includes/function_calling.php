@@ -3,12 +3,9 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-function summarize_and_create_image_prompt($post_content) {
+function text2image_generator_create_image_prompt($post_content) {
     $api_key = get_option('text2image_generator_api_key');
     $api_url = 'https://api.openai.com/v1/chat/completions';
-
-    // APIキーのログ（セキュリティ上の理由から、最初の数文字のみ表示）
-    text2image_generator_error_log('OpenAI API Key (first 5 chars): ' . substr($api_key, 0, 5));
 
     $headers = array(
         'Content-Type' => 'application/json',
@@ -18,26 +15,22 @@ function summarize_and_create_image_prompt($post_content) {
     $data = array(
         'model' => 'gpt-4o-mini',
         'messages' => array(
-            array('role' => 'system', 'content' => 'You are an AI assistant that summarizes blog posts and creates image generation prompts based on the content.'),
-            array('role' => 'user', 'content' => "Summarize the following blog post and create an image generation prompt based on its content:\n\n" . $post_content)
+            array('role' => 'system', 'content' => 'You are creative prompt engineer that summarizes blog posts and creates image generation prompts based on the content.'),
+            array('role' => 'user', 'content' => "Create an image generation prompt based on its content:\n\n" . $post_content)
         ),
         'functions' => array(
             array(
                 'name' => 'create_image_prompt',
-                'description' => 'Creates an image generation prompt based on the summarized blog post content',
+                'description' => 'Creates an image generation prompt based on the blog post content',
                 'parameters' => array(
                     'type' => 'object',
                     'properties' => array(
-                        'summary' => array(
-                            'type' => 'string',
-                            'description' => 'A brief summary of the blog post content'
-                        ),
                         'image_prompt' => array(
                             'type' => 'string',
-                            'description' => 'A detailed prompt for image generation based on the blog post content'
+                            'description' => 'A brief, focused prompt for image generation (max 30 words) capturing the essence of the blog post content'
                         )
                     ),
-                    'required' => array('summary', 'image_prompt')
+                    'required' => array('image_prompt')
                 )
             )
         ),

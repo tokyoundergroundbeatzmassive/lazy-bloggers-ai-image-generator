@@ -50,9 +50,12 @@ function text2image_generator_generate_image($post_id, $use_post_content, $use_t
         }
     }
 
-    $prompt_parts[] = $style_prompt;
-
     $final_prompt = implode(', ', $prompt_parts);
+    $style_prompt = get_option('text2image_generator_style_prompt');
+
+    if (!empty($style_prompt)) {
+        $final_prompt .= ". The image must be in the style of: " . $style_prompt;
+    }
 
     // Log the final prompt
     if (get_option('text2image_generator_enable_logging')) {

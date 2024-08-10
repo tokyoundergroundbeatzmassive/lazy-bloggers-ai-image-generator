@@ -3,23 +3,58 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Add the settings page to the admin menu
-function text2image_generator_menu() {
-    add_options_page(
-        'Text2Image Generator Settings',
-        'Text2Image Generator',
+// Add the main menu item for TUBM Plugins
+function text2image_generator_add_main_menu() {
+    global $menu;
+    $menu_slug = 'tubm-plugins';
+    
+    // メニューが存在しない場合のみ追加
+    $menu_exists = false;
+    foreach ($menu as $item) {
+        if ($item[2] === $menu_slug) {
+            $menu_exists = true;
+            break;
+        }
+    }
+    
+    if (!$menu_exists) {
+        add_menu_page(
+            'TUBM Plugins',
+            'TUBM Plugins',
+            'manage_options',
+            $menu_slug,
+            '',
+            'dashicons-admin-plugins',
+            30
+        );
+    }
+}
+add_action('admin_menu', 'text2image_generator_add_main_menu', 9);
+
+// Add the submenu item for Lazy Blogger's AI Image Generator
+function text2image_generator_add_submenu() {
+    add_submenu_page(
+        'tubm-plugins',
+        'Lazy Blogger\'s AI Image Generator Settings',
+        'Lazy Blogger\'s AI Image Generator',
         'manage_options',
         'text2image-generator',
         'text2image_generator_settings_page'
     );
 }
-add_action('admin_menu', 'text2image_generator_menu');
+add_action('admin_menu', 'text2image_generator_add_submenu');
+
+// Remove the default submenu item
+function text2image_generator_remove_default_submenu() {
+    remove_submenu_page('tubm-plugins', 'tubm-plugins');
+}
+add_action('admin_menu', 'text2image_generator_remove_default_submenu', 999);
 
 // Display the settings page
 function text2image_generator_settings_page() {
     ?>
     <div class="wrap">
-        <h1>Text2Image Generator Settings</h1>
+        <h1>Lazy Blogger's AI Image Generator Settings Page</h1>
         <div class="plugin-description-small">
             <p style="font-size: 12px;">This plugin works in conjunction with the DALL-E3 API to generate large-sized image files in .png format.<br>
             Therefore, we recommend using <a href="https://shortpixel.com/otp/af/QALRSBX1137437" target="_blank">ShortPixel Image Optimizer</a>.<br>
@@ -47,24 +82,24 @@ function text2image_generator_settings_page() {
                         </select>
                     </td>
                 </tr>
-                <tr valign="top">
+                <tr valign="top" class="diable-when-function-calling">
                     <th scope="row">Include Title</th>
                     <td><input type="checkbox" name="text2image_generator_include_title" value="1" <?php checked(1, get_option('text2image_generator_include_title'), true); ?> /></td>
                 </tr>
-                <tr valign="top">
+                <tr valign="top" class="diable-when-function-calling">
                     <th scope="row">Include Category</th>
                     <td><input type="checkbox" name="text2image_generator_include_category" value="1" <?php checked(1, get_option('text2image_generator_include_category'), true); ?> /></td>
                 </tr>
-                <tr valign="top">
+                <tr valign="top" class="diable-when-function-calling">
                     <th scope="row">Include Tags</th>
                     <td><input type="checkbox" name="text2image_generator_include_tag" value="1" <?php checked(1, get_option('text2image_generator_include_tag'), true); ?> /></td>
                 </tr>
                 <tr valign="top">
                     <th scope="row">Create prompt from the post content</th>
-                    <td><input type="checkbox" name="text2image_generator_use_post_content" value="1" <?php checked(1, get_option('text2image_generator_use_post_content'), true); ?> /></td>
+                    <td><input type="checkbox" id="text2image_generator_use_post_content" name="text2image_generator_use_post_content" value="1" <?php checked(1, get_option('text2image_generator_use_post_content'), true); ?> /></td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row">Additional (style) Prompt</th>
+                    <th scope="row">Additional (Style) Prompt</th>
                     <td><textarea name="text2image_generator_style_prompt" maxlength="1000" rows="5" cols="50"><?php echo esc_textarea(get_option('text2image_generator_style_prompt')); ?></textarea></td>
                 </tr>
                 <tr valign="top">
@@ -75,6 +110,31 @@ function text2image_generator_settings_page() {
             <?php submit_button(); ?>
         </form>
     </div>
+
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        function toggleOptionalSettings() {
+            var usePostContent = $('#text2image_generator_use_post_content').is(':checked');
+            $('.diable-when-function-calling').each(function() {
+                var inputs = $(this).find('input');
+                if (usePostContent) {
+                    $(this).css('opacity', '0.5');
+                    inputs.prop('disabled', true);
+                } else {
+                    $(this).css('opacity', '1');
+                    inputs.prop('disabled', false);
+                }
+            });
+        }
+
+        $('#text2image_generator_use_post_content').change(toggleOptionalSettings);
+        toggleOptionalSettings();
+
+        $('form').submit(function() {
+            $('.diable-when-function-calling input:disabled').prop('disabled', false);
+        });
+    });
+    </script>
     <?php
 }
 
