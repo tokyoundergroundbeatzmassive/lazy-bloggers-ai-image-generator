@@ -18,7 +18,7 @@ If you are too lazy to look for a featured image for your post, this one might b
 
 Lazy Blogger's AI Image Generator is a WordPress plugin that automatically creates featured images for your posts using OpenAI's DALL-E API. Good for lazy bloggers who want to save time on image selection.
 
-Key Features:
+**Key Features:**
 * Generates images automatically when a post is published
 * Uses post title, category, and tags to create image prompt
 * Or you can let AI read your post content to generate image prompt
@@ -33,7 +33,7 @@ Key Features:
 ## Installation
 
 1. Ensure your server meets the requirements, especially PHP 8.1 or higher.
-2. Upload the plugin files to the `/wp-content/plugins/lazy-bloggers-ai-image-generator` directory, or install the plugin through the WordPress plugins screen directly.
+2. Upload the plugin zip file to the `/wp-content/plugins/` directory, or install the plugin through the WordPress plugins screen directly.
 3. Activate the plugin through the 'Plugins' screen in WordPress
 4. Use the TUBM Plugins->Lazy Blogger's AI Image Generator screen to configure the plugin
 5. Enter your OpenAI API Key in the settings
