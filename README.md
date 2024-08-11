@@ -1,8 +1,10 @@
 # Lazy Blogger's AI Image Generator
-Contributors: Anonymous_Producer  
+Contributors: tubm  
+Author: tubm  
+Author URI: https://wordpress.org/support/users/tubm/  
 Tags: ai, automated image generation, featured image, openai, dall-e  
-Requires WordPress: 6.1.1 or higher  
-Tested up to WordPress: 6.6.1  
+Requires at least: WordPress 6.1.1  
+Tested up to: WordPress 6.6.1  
 Requires PHP: 8.1 or higher  
 Stable tag: 1.3  
 License: GPLv2 or later  
@@ -50,6 +52,26 @@ Lazy Blogger's AI Image Generator is a WordPress plugin that automatically creat
 ## Note
 
 This plugin requires an OpenAI API key to function. Make sure you have an active OpenAI account and API key before using this plugin.
+
+## External Libraries
+
+This plugin uses the following external library:
+
+* [mehrab-wj/tiktoken-php](https://github.com/mehrab-wj/tiktoken-php) - MIT License
+
+This library is used under the terms of its respective license.
+
+## Privacy Policy
+
+This plugin uses the OpenAI API to generate images. Your post title, category, tags, and potentially post content may be sent to OpenAI for image generation. Please refer to [OpenAI's privacy policy](https://openai.com/policies/privacy-policy) for information on how they handle user data.
+
+This plugin does not store or share any user data.
+
+## Recommendations
+
+This plugin generates large-sized image files in .png format. For optimal performance, we recommend using [ShortPixel Image Optimizer](https://shortpixel.com/otp/af/QALRSBX1137437) to compress and convert these images. ShortPixel can automatically convert images to .jpg, .webp, .avif formats and compress them, reducing file size by up to 90%. You get 100 free credits every month.
+
+Note: We may receive a commission if you sign up and purchase credit through this link.
 
 ## Changelog
 

@@ -3,21 +3,20 @@
  * Plugin Name: Lazy Blogger's AI Image Generator
  * Description: AI Generates an image based on the text provided in the post contents, and set it as featured image automatically when the post is published
  * Version: 1.3
- * Author Email: Zukamimozu@protonmail.com
- * Author: Anonymous_Producer
+ * Author: tubm
+ * Author URI: https://wordpress.org/support/users/tubm/
  * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Constants
 define('TEXT2IMAGE_GENERATOR_API_URL', 'https://api.openai.com/v1/images/generations');
 define('TEXT2IMAGE_GENERATOR_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('TEXT2IMAGE_GENERATOR_LOG_FILE', TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'text2image_generator.log');
 
-// Include other files
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/admin-settings.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/image-generation.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/log.php';
@@ -26,16 +25,13 @@ require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/function_calling.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/tiktoken.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'vendor/autoload.php';
 
-// Save the generated image as the featured image when a post is published
 function text2image_generator_on_transition_post_status($new_status, $old_status, $post) {
     $post_id = $post->ID;
 
-    // Check if the post is a revision or an autosave
     if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) {
         return;
     }
 
-    // Check if the post is published
     if ($new_status !== 'publish' || $old_status === 'publish') {
         return;
     }

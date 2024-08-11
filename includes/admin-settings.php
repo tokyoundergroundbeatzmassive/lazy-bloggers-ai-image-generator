@@ -3,12 +3,10 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Add the main menu item for TUBM Plugins
 function text2image_generator_add_main_menu() {
     global $menu;
     $menu_slug = 'tubm-plugins';
-    
-    // メニューが存在しない場合のみ追加
+
     $menu_exists = false;
     foreach ($menu as $item) {
         if ($item[2] === $menu_slug) {
@@ -31,7 +29,6 @@ function text2image_generator_add_main_menu() {
 }
 add_action('admin_menu', 'text2image_generator_add_main_menu', 9);
 
-// Add the submenu item for Lazy Blogger's AI Image Generator
 function text2image_generator_add_submenu() {
     add_submenu_page(
         'tubm-plugins',
@@ -44,20 +41,18 @@ function text2image_generator_add_submenu() {
 }
 add_action('admin_menu', 'text2image_generator_add_submenu');
 
-// Remove the default submenu item
 function text2image_generator_remove_default_submenu() {
     remove_submenu_page('tubm-plugins', 'tubm-plugins');
 }
 add_action('admin_menu', 'text2image_generator_remove_default_submenu', 999);
 
-// Display the settings page
 function text2image_generator_settings_page() {
     ?>
     <div class="wrap">
         <h1>Lazy Blogger's AI Image Generator Settings Page</h1>
         <div class="plugin-description-small">
             <p style="font-size: 12px;">This plugin works in conjunction with the DALL-E3 API to generate large-sized image files in .png format.<br>
-            Therefore, we recommend using <a href="https://shortpixel.com/otp/af/QALRSBX1137437" target="_blank">ShortPixel Image Optimizer</a>.<br>
+            Therefore, we recommend using <a href="https://shortpixel.com/otp/af/QALRSBX1137437" target="_blank">ShortPixel Image Optimizer</a> (we may receive a commission if you sign up and purchase credit).<br>
             It can automatically convert images to .jpg, .webp, .avif and so on... compress them, reducing file size by up to 90%.<br>
             You get 100 free credits every month!</p>
             <p style="font-size: 12px; font-weight: bold;">Note: This plugin requires an <a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI API key</a> to function!</p>
@@ -138,7 +133,6 @@ function text2image_generator_settings_page() {
     <?php
 }
 
-// Register the settings
 function text2image_generator_settings() {
     register_setting('text2image_generator_settings', 'text2image_generator_api_key');
     register_setting('text2image_generator_settings', 'text2image_generator_size');

@@ -3,14 +3,12 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Generate an image using the OpenAI API
 function text2image_generator_generate_image($post_id, $use_post_content, $use_title, $use_category, $use_tag, $custom_prompt = null) {
     $api_key = get_option('text2image_generator_api_key');
     $size = get_option('text2image_generator_size');
     $style_prompt = get_option('text2image_generator_style_prompt');
     $final_prompt = ""; 
 
-    // Get post details
     $post = get_post($post_id);
     $post_title = wp_strip_all_tags($post->post_title);
 
@@ -57,7 +55,6 @@ function text2image_generator_generate_image($post_id, $use_post_content, $use_t
         $final_prompt .= ". The image must be in the style of " . $style_prompt;
     }
 
-    // Log the final prompt
     if (get_option('text2image_generator_enable_logging')) {
         text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - Final Prompt: ' . $final_prompt);
     }
@@ -79,16 +76,13 @@ function text2image_generator_generate_image($post_id, $use_post_content, $use_t
         'method' => 'POST',
     );
 
-    // Send the API request
     $response = wp_remote_post(TEXT2IMAGE_GENERATOR_API_URL, $request_args);
     $json = json_decode(wp_remote_retrieve_body($response), true);
 
-    // Log the API response
     if (get_option('text2image_generator_enable_logging')) {
         text2image_generator_error_log('Text2Image Generator - Post ID: ' . $post_id . ' - API Response: ' . wp_remote_retrieve_body($response));
     }
     
-    // Check if logging is enabled
     if (get_option('text2image_generator_enable_logging')) {
         $log_message = 'Text2Image Generator - Post ID: ' . $post_id . ' - ';
         if ($json && isset($json['data'][0]['url'])) {
@@ -99,7 +93,6 @@ function text2image_generator_generate_image($post_id, $use_post_content, $use_t
         text2image_generator_error_log($log_message);
     }
 
-    // Check if the JSON response has the image URL and return it with the post title
     if ($json && isset($json['data'][0]['url'])) {
         return array($json['data'][0]['url'], $post_title);
     } else {

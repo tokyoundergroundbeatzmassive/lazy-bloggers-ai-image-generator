@@ -3,7 +3,6 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Set the featured image for a post from a given URL
 function text2image_generator_set_featured_image_from_url($post_id, $image_data) {
     $image_url = $image_data[0];
     $post_title = $image_data[1];
@@ -24,14 +23,13 @@ function text2image_generator_set_featured_image_from_url($post_id, $image_data)
         if ($attachments) {
             $attachment = $attachments[0];
 
-            // Set the attachment file name to the post title
             $new_file_name = sanitize_file_name($post_title . '_' . time() . '.png');
             $file_path = get_attached_file($attachment->ID);
             $new_file_path = dirname($file_path) . '/' . $new_file_name;
             if (rename($file_path, $new_file_path)) {
                 update_attached_file($attachment->ID, $new_file_path);
             }
-            // Set the alt text to the post title
+
             update_post_meta($attachment->ID, '_wp_attachment_image_alt', $post_title);
 
             if (set_post_thumbnail($post_id, $attachment->ID)) {

@@ -27,7 +27,7 @@ function text2image_generator_create_image_prompt($post_content) {
                     'properties' => array(
                         'image_prompt' => array(
                             'type' => 'string',
-                            'description' => 'A brief, focused prompt for image generation (max 30 words) capturing the essence of the blog post content'
+                            'description' => 'A brief, focused prompt for DALL-E3 image generation (between 20 to 50 words) capturing the essence of the blog post content'
                         )
                     ),
                     'required' => array('image_prompt')
