@@ -79,7 +79,7 @@ Note: We may receive a commission if you sign up and purchase credit through thi
 * Added function calling to generate prompts from post content
 
 ### 1.2
-* I can't remember
+* Switched Medel to Dalle-3 & GPT-4o mini
 
 ### 1.1
 * Bug fixes and performance improvements
