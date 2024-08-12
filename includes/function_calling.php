@@ -39,7 +39,7 @@ function text2image_generator_create_image_prompt($post_content) {
 
     $response = wp_remote_post($api_url, array(
         'headers' => $headers,
-        'body' => json_encode($data),
+        'body' => wp_json_encode($data),
         'timeout' => 30
     ));
 

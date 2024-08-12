@@ -26,7 +26,14 @@ function text2image_generator_set_featured_image_from_url($post_id, $image_data)
             $new_file_name = sanitize_file_name($post_title . '_' . time() . '.png');
             $file_path = get_attached_file($attachment->ID);
             $new_file_path = dirname($file_path) . '/' . $new_file_name;
-            if (rename($file_path, $new_file_path)) {
+
+            global $wp_filesystem;
+            if (empty($wp_filesystem)) {
+                require_once (ABSPATH . '/wp-admin/includes/file.php');
+                WP_Filesystem();
+            }
+
+            if ($wp_filesystem->move($file_path, $new_file_path)) {
                 update_attached_file($attachment->ID, $new_file_path);
             }
 

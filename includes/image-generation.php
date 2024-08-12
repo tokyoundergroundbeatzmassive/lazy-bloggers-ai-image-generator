@@ -66,7 +66,7 @@ function text2image_generator_generate_image($post_id, $use_post_content, $use_t
 
     $request_args = array(
         'headers' => $headers,
-        'body' => json_encode(array(
+        'body' => wp_json_encode(array(
             'prompt' => $final_prompt,
             'n' => 1,
             'size' => $size,
