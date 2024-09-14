@@ -17,7 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'TEXT2IMAGE_GENERATOR_API_URL', 'https://api.openai.com/v1/images/generations' );
 define( 'TEXT2IMAGE_GENERATOR_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'TEXT2IMAGE_GENERATOR_LOG_FILE', TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'text2image_generator.log' );
 
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/admin-settings.php';
 require_once TEXT2IMAGE_GENERATOR_PLUGIN_DIR . 'includes/image-generation.php';
