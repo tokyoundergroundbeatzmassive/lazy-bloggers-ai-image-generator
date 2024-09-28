@@ -17,7 +17,7 @@ use TikToken\Encoder;
  * @param string $post_content The post content.
  * @return int Number of tokens.
  */
-function text2image_generator_count_tokens( $post_content ) {
+function lazy_bloggers_ai_image_generator_count_tokens( $post_content ) {
 	$encoder = new Encoder();
 	$tokens  = $encoder->encode( $post_content );
 	return count( $tokens );
@@ -30,7 +30,7 @@ function text2image_generator_count_tokens( $post_content ) {
  * @param int    $max_tokens   Maximum number of tokens allowed (fixed to 100000).
  * @return string Limited post content.
  */
-function text2image_generator_limit_tokens( $post_content, $max_tokens = 100000 ) {
+function lazy_bloggers_ai_image_generator_limit_tokens( $post_content, $max_tokens = 100000 ) {
 	$encoder = new Encoder();
 	$tokens  = $encoder->encode( $post_content );
 

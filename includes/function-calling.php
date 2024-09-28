@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $post_content The content of the blog post.
  * @return string|null Generated image prompt, or null on error.
  */
-function text2image_generator_create_image_prompt( $post_content ) {
-	$api_key = get_option( 'text2image_generator_api_key' );
+function lazy_bloggers_ai_image_generator_create_image_prompt( $post_content ) {
+	$api_key = get_option( 'lazy_bloggers_ai_image_generator_api_key' );
 	$api_url = 'https://api.openai.com/v1/chat/completions';
 
 	$headers = array(
@@ -65,12 +65,12 @@ function text2image_generator_create_image_prompt( $post_content ) {
 	);
 
 	if ( is_wp_error( $response ) ) {
-		text2image_generator_error_log( 'WP Error in API call: ' . $response->get_error_message() );
+		lazy_bloggers_ai_image_generator_error_log( 'WP Error in API call: ' . $response->get_error_message() );
 		return null;
 	}
 
 	$body = wp_remote_retrieve_body( $response );
-	text2image_generator_error_log( 'API Response: ' . $body );
+	lazy_bloggers_ai_image_generator_error_log( 'API Response: ' . $body );
 
 	$result = json_decode( $body, true );
 
@@ -79,11 +79,11 @@ function text2image_generator_create_image_prompt( $post_content ) {
 		if ( isset( $arguments['image_prompt'] ) ) {
 			return $arguments['image_prompt'];
 		} else {
-			text2image_generator_error_log( 'Image prompt not found in API response' );
+			lazy_bloggers_ai_image_generator_error_log( 'Image prompt not found in API response' );
 			return null;
 		}
 	} else {
-		text2image_generator_error_log( 'Unexpected API response structure' );
+		lazy_bloggers_ai_image_generator_error_log( 'Unexpected API response structure' );
 		return null;
 	}
 }

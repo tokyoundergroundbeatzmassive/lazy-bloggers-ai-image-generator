@@ -20,10 +20,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string|null $custom_prompt A custom prompt to use if not using the post content, title, categories, or tags.
  * @return array|null An array containing the generated image URL and post title, or null if the image generation failed.
  */
-function text2image_generator_generate_image( $post_id, $use_post_content, $use_title, $use_category, $use_tag, $custom_prompt = null ) {
-	$api_key      = get_option( 'text2image_generator_api_key' );
-	$size         = get_option( 'text2image_generator_size' );
-	$style_prompt = get_option( 'text2image_generator_style_prompt' );
+function lazy_bloggers_ai_image_generator_generate_image( $post_id, $use_post_content, $use_title, $use_category, $use_tag, $custom_prompt = null ) {
+	$api_key      = get_option( 'lazy_bloggers_ai_image_generator_api_key' );
+	$size         = get_option( 'lazy_bloggers_ai_image_generator_size' );
+	$style_prompt = get_option( 'lazy_bloggers_ai_image_generator_style_prompt' );
 	$final_prompt = '';
 
 	$post       = get_post( $post_id );
@@ -66,13 +66,13 @@ function text2image_generator_generate_image( $post_id, $use_post_content, $use_
 	}
 
 	$final_prompt = implode( ', ', $prompt_parts );
-	$style_prompt = get_option( 'text2image_generator_style_prompt' );
+	$style_prompt = get_option( 'lazy_bloggers_ai_image_generator_style_prompt' );
 
 	if ( ! empty( $style_prompt ) ) {
 		$final_prompt .= '. The image must be in the style of ' . $style_prompt;
 	}
 
-	text2image_generator_error_log( 'Text2Image Generator - Post ID: ' . $post_id . ' - Final Prompt: ' . $final_prompt );
+	lazy_bloggers_ai_image_generator_error_log( 'Lazy Bloggers AI Image Generator - Post ID: ' . $post_id . ' - Final Prompt: ' . $final_prompt );
 
 	$headers = array(
 		'Content-Type'  => 'application/json',
@@ -93,18 +93,18 @@ function text2image_generator_generate_image( $post_id, $use_post_content, $use_
 		'method'  => 'POST',
 	);
 
-	$response = wp_remote_post( TEXT2IMAGE_GENERATOR_API_URL, $request_args );
+	$response = wp_remote_post( LAZY_BLOGGERS_AI_IMAGE_GENERATOR_API_URL, $request_args );
 	$json     = json_decode( wp_remote_retrieve_body( $response ), true );
 
-	text2image_generator_error_log( 'Text2Image Generator - Post ID: ' . $post_id . ' - API Response: ' . wp_remote_retrieve_body( $response ) );
+	lazy_bloggers_ai_image_generator_error_log( 'Lazy Bloggers AI Image Generator - Post ID: ' . $post_id . ' - API Response: ' . wp_remote_retrieve_body( $response ) );
 
-	$log_message = 'Text2Image Generator - Post ID: ' . $post_id . ' - ';
+	$log_message = 'Lazy Bloggers AI Image Generator - Post ID: ' . $post_id . ' - ';
 	if ( $json && isset( $json['data'][0]['url'] ) ) {
 		$log_message .= 'Image generation succeeded';
 	} else {
 		$log_message .= 'Image generation failed';
 	}
-	text2image_generator_error_log( $log_message );
+	lazy_bloggers_ai_image_generator_error_log( $log_message );
 
 	if ( $json && isset( $json['data'][0]['url'] ) ) {
 		return array( $json['data'][0]['url'], $post_title );

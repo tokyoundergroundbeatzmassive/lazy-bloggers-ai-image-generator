@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
     function toggleOptionalSettings() {
-        var usePostContent = $('#text2image_generator_use_post_content').is(':checked');
+        var usePostContent = $('#lazy_bloggers_ai_image_generator_use_post_content').is(':checked');
         $('.diable-when-function-calling').each(function () {
             var inputs = $(this).find('input');
             if (usePostContent) {
@@ -13,7 +13,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
-    $('#text2image_generator_use_post_content').change(toggleOptionalSettings);
+    $('#lazy_bloggers_ai_image_generator_use_post_content').change(toggleOptionalSettings);
     toggleOptionalSettings();
 
     $('form').submit(function () {

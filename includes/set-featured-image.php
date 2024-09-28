@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param int   $post_id    Post ID.
  * @param array $image_data Image data (URL at [0], title at [1]).
  */
-function text2image_generator_set_featured_image_from_url( $post_id, $image_data ) {
+function lazy_bloggers_ai_image_generator_set_featured_image_from_url( $post_id, $image_data ) {
 	$image_url  = $image_data[0];
 	$post_title = $image_data[1];
 
@@ -52,15 +52,15 @@ function text2image_generator_set_featured_image_from_url( $post_id, $image_data
 			update_post_meta( $attachment->ID, '_wp_attachment_image_alt', $post_title );
 
 			if ( set_post_thumbnail( $post_id, $attachment->ID ) ) {
-				text2image_generator_error_log( 'Featured Image Set - Post ID: ' . $post_id );
+				lazy_bloggers_ai_image_generator_error_log( 'Featured Image Set - Post ID: ' . $post_id );
 
 			} else {
-				text2image_generator_error_log( 'Mission Failed - Post ID: ' . $post_id . ' - Failed to set featured image' );
+				lazy_bloggers_ai_image_generator_error_log( 'Mission Failed - Post ID: ' . $post_id . ' - Failed to set featured image' );
 			}
 		} else {
-			text2image_generator_error_log( 'Mission Failed - Post ID: ' . $post_id . ' - No attachment found' );
+			lazy_bloggers_ai_image_generator_error_log( 'Mission Failed - Post ID: ' . $post_id . ' - No attachment found' );
 		}
 	} else {
-		text2image_generator_error_log( 'Mission Failed - Post ID: ' . $post_id . ' - Error in media_sideload_image' );
+		lazy_bloggers_ai_image_generator_error_log( 'Mission Failed - Post ID: ' . $post_id . ' - Error in media_sideload_image' );
 	}
 }
