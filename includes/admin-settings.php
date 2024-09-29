@@ -24,17 +24,17 @@ function lazy_bloggers_ai_image_generator_add_main_menu() {
 		}
 	}
 
-    if (!$menu_exists) {
-        add_menu_page(
-            'TUBM Plugins',
-            'TUBM Plugins',
-            'manage_options',
-            $menu_slug,
-            '',
-            'dashicons-admin-plugins',
-            30
-        );
-    }
+	if ( ! $menu_exists ) {
+		add_menu_page(
+			'TUBM Plugins',
+			'TUBM Plugins',
+			'manage_options',
+			$menu_slug,
+			'',
+			'dashicons-admin-plugins',
+			30
+		);
+	}
 }
 add_action( 'admin_menu', 'lazy_bloggers_ai_image_generator_add_main_menu', 9 );
 
@@ -44,8 +44,8 @@ add_action( 'admin_menu', 'lazy_bloggers_ai_image_generator_add_main_menu', 9 );
 function lazy_bloggers_ai_image_generator_add_submenu() {
 	add_submenu_page(
 		'tubm-plugins',
-        'Lazy Blogger\'s AI Image Generator Settings',
-        'Lazy Blogger\'s AI Image Generator',
+		'Lazy Blogger\'s AI Image Generator Settings',
+		'Lazy Blogger\'s AI Image Generator',
 		'manage_options',
 		'lazy-bloggers-ai-image-generator',
 		'lazy_bloggers_ai_image_generator_settings_page'
@@ -161,10 +161,8 @@ add_action( 'admin_init', 'lazy_bloggers_ai_image_generator_settings' );
 
 /**
  * Enqueue JavaScript for the admin page.
- *
- * @param string $hook The current admin page hook.
  */
-function lazy_bloggers_ai_image_generator_enqueue_admin_scripts( $hook ) {
+function lazy_bloggers_ai_image_generator_enqueue_admin_scripts() {
 
 	wp_enqueue_script(
 		'text2image-generator-admin',
