@@ -1,3 +1,7 @@
+You can get this plugin from wordpress.org directly now:  
+https://wordpress.org/plugins/lazy-bloggers-ai-image-generator/
+-----
+
 # Lazy Blogger's AI Image Generator
 Contributors: tubm  
 Author: tubm  
